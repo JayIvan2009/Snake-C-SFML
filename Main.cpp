@@ -8,13 +8,13 @@
 #include "Snake.h"
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1000, 1000), "Space Survival");
-	sf::Vector2f dimensions(window.getSize().x, window.getSize().y);
+	sf::RenderWindow window(sf::VideoMode(1100, 1300), "Space Survival");
+	sf::Vector2f dimensions(1000.0f, 1000.0f);
 	sf::Clock clock;
 	Menu menu(dimensions);
-	Grid game(dimensions);
-	Snake snake;
-	game.setGrid();
+	Grid grid(dimensions);
+	Snake snake(dimensions, grid);
+	grid.setGrid();
 
 	menu.menu();
 	bool exitMenu = false;
@@ -57,22 +57,22 @@ int main() {
 						break;
 					case sf::Keyboard::W:
 						menu.moveUp();
-						std::cout << "Up" << std::endl;
 						break;
 					case sf::Keyboard::S:
 						menu.moveDown();
-						std::cout << "Down" << std::endl;
 						break;
 					}
 			}
 		}
 
-		window.clear();
+		window.clear(sf::Color::Color(255, 255, 255));
 		if (!exitMenu) {
 			menu.Draw(window);
 		}
 		else {
-			game.showGrid(window);
+			menu.setScore(snake.getScore());
+			menu.drawScore(window);
+			grid.showGrid(window);
 			snake.Draw(window);
 			snake.move(time, timer, event);
 		}
